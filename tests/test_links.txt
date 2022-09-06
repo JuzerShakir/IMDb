@@ -1,0 +1,18 @@
+## Supports
+# Movies with ratings
+https://www.imdb.com/title/tt7466810/?ref_=wl_li_tt
+
+https://www.imdb.com/title/tt0111161/
+
+# TV Series link
+https://www.imdb.com/title/tt5491994/?ref_=tt_ov_inf
+
+# Unsupported
+# Episode link
+https://www.imdb.com/title/tt6142646/?ref_=ttep_ep1
+
+# Episode links without ratings
+https://www.imdb.com/title/tt4351260/?ref_=ttep_ep1
+
+# Games with ratings
+https://www.imdb.com/title/tt6161168/?ref_=adv_li_tt
