@@ -7,23 +7,26 @@ require_relative "extract_metadata.rb"
 Watir.default_timeout = 3
 
 module IMDb
-    class CollectData
+    class InitiateMovieTV
         include ExtractMetadata
-        attr_reader :url, :errors
+        attr_reader :url, :errors, :error_messages, :session_closed
 
         def initialize url
             @url = url
-            @errors = error_message ? true : false
+            @error_messages = []
+            @errors = false
+            @session_closed = false
+            validate_input
+            if @error_messages.any?
+                @errors = true
+                close_connection if @browser
+                @session_closed = true
+            end
         end
 
-        def error_message
-            if valid_url?
-                connect_n_fetch
-                return "Content Type is not supported" if !content_type_supported?
-                return "Ratings doesn't exist" if !ratings_exists?
-            else
-                return "Invalid URL"
-            end
+        def close_connection
+            @browser.close
+            @session_closed = true
         end
 
         private
@@ -39,10 +42,8 @@ module IMDb
             end
 
             def extract_data(tag, attrb, *methods)
-                unless @errors
-                    html = @browser.send(tag, attrb)
-                    methods.inject(html) { |o, a| o.send(*a) }
-                end
+                html = @browser.send(tag, attrb)
+                methods.inject(html) { |o, a| o.send(*a) }
             end
 
             # * returns true if rating exists
@@ -65,6 +66,16 @@ module IMDb
             def valid_url?
                 valid_url = /(\Ahttps:\/\/www.imdb.com\/title\/tt\d{7}\/)/i
                 @url.match?(valid_url)
+            end
+
+            def validate_input
+                if valid_url?
+                    connect_n_fetch
+                    @error_messages << "Content Type is not supported" if !content_type_supported?
+                    @error_messages << "Ratings doesn't exist" if !ratings_exists?
+                else
+                    @error_messages << "Invalid URL"
+                end
             end
     end
 end
