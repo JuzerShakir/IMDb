@@ -118,5 +118,12 @@ module IMDb
                 html.map(&:text)
             end
         end
+
+        # * 15 Unique IMDb Id
+        def imdb_id
+            unless @session_closed
+                @url.match(/(tt\d{7})/)[0]
+            end
+        end
     end
 end

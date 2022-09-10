@@ -12,6 +12,7 @@ movie = IMDb::InitiateMovieTV.new("https://www.imdb.com/title/tt7466810/?ref_=wl
 # movie = IMDb::InitiateMovieTV.new("kfdf")
 
 p movie.methods
+# p movie.imdb_id
 # p movie.url
 # p movie.error_messages
 # p movie.session_closed
